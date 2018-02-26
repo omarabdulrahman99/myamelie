@@ -1,0 +1,19 @@
+extends layout
+block content
+ body(style='background-color:#000')
+  .container
+    form.form-signin(role='form', action="/register", method="post", style='max-width: 300px;', enctype="multipart/form-data")
+      h2.form-signin-heading Sign Up here
+      input.form-control(type='file', id="profilePic", name="profile_pic", placeholder='Profile Picture' style="color:#fff")
+      input.form-control(type='text', id="name", name="name", placeholder='Your Name')
+      input.form-control(type='text', id="username", name="username", placeholder='email or username')
+      input.form-control(type='password', id="password", name="password", placeholder='Your Password')
+      div
+        input(type="checkbox" id="userRole" name="role")
+        label(for="userRole" style="color:#fff") Admin
+        input.form-control(type='text', id="passCode", name="passCode", placeholder='input passcode for admin')
+      button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign Up
+      
+      script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js')
+
+      script(src='/javascripts/index.js')

@@ -1,0 +1,21 @@
+extends layout
+block content
+ body(style='background-color:black')
+    
+     
+    form.form-signin(role='form', action='/login', method='post')
+      .form-signin-heading Please sign in
+      label.sr-only(for='inputEmail')
+      input.form-control(type='text', name='username', id='inputEmail', placeholder='Username', required, autofocus)
+      br
+      input.form-control(type='password', name='password', id='inputPassword', placeholder='Password', required, autofocus)
+      br
+      button(type='submit') LOGIN
+ 
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.21/p5.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js')
+    script(src='/javascripts/index2.js')
+    link(href='http://fonts.googleapis.com/css?family=Great+Vibes', rel='stylesheet', type='text/css')
+
+    
+   

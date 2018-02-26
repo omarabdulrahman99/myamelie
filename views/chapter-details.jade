@@ -1,0 +1,60 @@
+extends layout
+block content
+ body(style='background-color:#000')
+    link(href='http://fonts.googleapis.com/css?family=Great+Vibes', rel='stylesheet', type='text/css')
+    
+
+
+
+
+    div.right 
+        if(user)
+            a Welcome #{user.name}
+            | &nbsp
+            a(href='/main') Home
+            | &nbsp
+            a(href='/profile') Profile
+            | &nbsp
+            a(href='/logout') Logout
+        else
+            a(href='/main') Home
+            | &nbsp
+            a(href='/register') Register
+            | &nbsp
+            a(href='/login') Login
+         
+  div.story_container
+        h3.comment__authorname #{chapter[0].chapterTitle}
+        | &nbsp
+        p !{chapter[0].chapterStory.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br/>')}
+        
+        
+        form.like-icon(role='form', action='/uplikes', method='post')
+            input(type='text', name='by', id='inpurUserId', value=user ? user.id: '' placeholder='user', type='hidden', autofocus)
+            input(type='text', name='chapterId', id='inpurUserId', value="#{chapter[0]._id}" placeholder='user', type='hidden', autofocus)
+            button.like-submit(type='submit')
+            p.likes-count #{chapter[0].likes.length}
+
+    div.comment__container
+        div#messages
+            if commentList.length == 0
+                div.comment__item
+                    div.content__no-entry
+                        p  No comment entered!
+            each comment in commentList
+                div.comment__item
+                    div.infos
+                        img(src= '../' +comment.by.profile_pic)
+                    div.content
+                        h3.comment__authorname #{comment.by.name}
+                        b.comment__time #{moment(comment.createdAt, "YYYYMMDD").fromNow()}
+                        p #{comment.body}
+
+        form.comment__form(role='form', action='/add-comment', method='post')
+            div
+                textarea(type='text', name='body', id='inputComment', required, autofocus)
+                br
+                input(type='text', name='chapterId', id='inpurUserId', value="#{chapter[0]._id}" placeholder='user', hidden, autofocus)
+                br
+                input(type='text', name='by', id='inpurUserId', value=user ? user.id: '' placeholder='user', hidden, autofocus)
+                button.comment__submit(type='submit') Add Comment

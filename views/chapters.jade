@@ -1,0 +1,86 @@
+extends layout
+block content
+ body(style='background-color:black')
+    link(href='http://fonts.googleapis.com/css?family=Great+Vibes', rel='stylesheet', type='text/css')
+    div.right  
+        if(user)
+            a Welcome #{user.name}
+            | &nbsp
+            a(href='/main') Home
+            | &nbsp
+            a(href='/profile') Profile
+            | &nbsp
+            a(href='/logout') Logout
+        else
+            a(href='/main') Home
+            | &nbsp
+            a(href='/register') Register
+            | &nbsp
+            a(href='/login') Login 
+    
+    div.chapedits
+        a.add Add  Chapter
+        | &nbsp | &nbsp | &nbsp
+        a.edit Edit  Chapter
+        | &nbsp | &nbsp | &nbsp
+        a.remove Remove  Chapter
+        | &nbsp 
+
+    
+   div#editcontain
+    p.grey.hide Select Chapter to Edit
+    each chapter in chapters
+        div 
+         a#chapterLinks2.hide(href='/chapterLinks/'+chapter._id) Chapter #{chapter.chapterNumber}        
+         img.hide(src='/images/chapter' + chapter.chapterNumber + '.jpg',  height='100', width='100')
+         br
+          
+    button.chform3.hide(type='button') Back to Options 
+
+    
+   div#editcontain
+    p.grey.hide2 Select Chapter to Delete
+    each chapter in chapters
+        div
+         a#chapterLinks3.hide2(href='/deleteLinks/'+chapter._id) Chapter #{chapter.chapterNumber} 
+         img.hide2(src='/images/chapter' + chapter.chapterNumber + '.jpg',  height='100', width='100')
+         br
+         
+    button.chform3.hide2(type='button') Back to Options       
+   
+
+  div.profile_container
+        form.profile__form.kappa(role='form', action="/add-chapters",id="chform" method="post", style='max-width: 800px;')
+            .profile__form-heading Add Chapter
+            input.form-control(type='number', min="1" name="chapterNumber", id="inputChapterNumber" placeholder='Chapter Number' required)
+            br
+            input.form-control(type='text', name="chapterTitle", id="inputChapterTitle", placeholder='Title' required)
+            textarea(name='chapterStory', cols='30', rows='5', form="chform", placeholder="Enter Story", id="txtadd" required)
+            br
+            button.chform(type='submit') Save
+            br
+            button.chform2(type='button') Back to Options
+
+     
+    
+        form.profile__form.kappa2(role='form', action="/edit-chapters",id="chformt" method="post", style='max-width: 800px;')
+            .profile__form-heading Edit Chapter
+            input.form-control(type='number', min="1" name="chapterNumber", id="inputChapterNumber2" placeholder='Chapter Number' required)
+            br
+            input.form-control(type='text', name="chapterTitle", id="inputChapterTitle2", placeholder='Title' required)
+            textarea(name='chapterStory', cols='30', rows='5', form="chformt", placeholder="Enter Story" , id="txtarea2" required)
+            br
+            input(type='hidden', name='chapterId', id='chapid', placeholder='user', autofocus)
+            button.chform(type='submit') Save Edits
+            br
+            button.chform2(type='button') Back to Options
+
+
+
+
+
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js')
+    script(src='/javascripts/index.js')
+ 

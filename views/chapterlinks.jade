@@ -1,0 +1,117 @@
+doctype html
+html
+  head
+   
+  body(style='background-color:black')
+  meta(name='viewport', content='initial-scale=1')
+         
+          
+        
+  
+  p
+   each chapter in chapters
+    ul.centered
+      li.none
+      li 
+        a#chapterLinks1(href='/chapterLinks/'+chapter._id, data-toggle='modal', data-target='#myModal') Chapter #{chapter.chapterNumber} 
+        br
+        img(src='/images/chapter' + chapter.chapterNumber + '.jpg',  height='100', width='100')
+       
+
+        
+        
+  
+
+   div.menuchapters 
+    if (!user) 
+        a(href='/main', style='text-decoration:none;color:gray;') Back to Main
+        br
+        a(href='/login', style='text-decoration:none;color:gray;') Login
+        br
+        a(href='/register', style='text-decoration:none;color:gray;') Register
+        br
+
+    if (user && user.role == 'user')
+        p(style='text-decoration:none;color:gray;') Welcome #{user.name}
+        
+        a(href='/main', style='text-decoration:none;color:gray;') Back to Main
+        br
+        a(href='/profile', style='text-decoration:none;color:gray;') Profile
+        br
+        a(href='/forums', style='text-decoration:none;color:gray;') Forums
+        br
+        a(href='/logout', style='text-decoration:none;color:gray;') Logout
+    if (user && user.role == 'admin')
+        p(style='text-decoration:none;color:gray;') Welcome #{user.name}
+        
+        a(href='/main', style='text-decoration:none;color:gray;') Back to Main
+        br
+        a(href='/chapters' , style='text-decoration:none;color:gray;') Edit Chapters
+        br
+        a(href='/profile', style='text-decoration:none;color:gray;') Profile
+        br
+        a(href='/forums', style='text-decoration:none;color:gray;') Forums
+        br
+        a(href='/logout', style='text-decoration:none;color:gray;') Logout
+
+
+ 
+// Modal
+#myModal.modal.custom.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+  .modal-dialog(role='document')
+    .model-content
+      .modal-header
+        h4#myModalLabel.modal-title 
+      .modal-body
+        h4#myModalLabel.modal-body 
+      .modal-footer
+        form.like-icon(role='form', action='/uplikes', method='post', id='likeform')
+            input(type='hidden', name='by', id='inpurUserId', value=user ? user.id: '' placeholder='user', autofocus)
+            input(type='hidden', name='chapterId', id='chapid', placeholder='user', autofocus)
+            input#toggle-heart(type='checkbox')
+            label(for='toggle-heart') ❤
+            p.likes-count
+        a#back(href='#', style='text-decoration:none;color:gray;') Back
+        
+        div#messages
+          if commentList                                   
+            each comment in commentList
+                div.comment__item
+                    div.infos
+                        img(src= '../' +comment.by.profile_pic)
+                    div.content
+                        h3.comment__authorname #{comment.by.name}
+                        b.comment__time #{moment(comment.createdAt, "YYYYMMDD").fromNow()}
+                        p #{comment.body}
+          else
+            p #{commentList}
+        form(role='form', action='/add-comment', method='post', id='comForm')
+                textarea(name='body', cols='30', rows='5', form="comForm", placeholder="Enter comment", id='rearea')
+                br
+                button.comform(type='submit') Add Comment
+                br
+                input(type='text', name='chapterId', id='comchapId', placeholder='chapter', hidden, autofocus)
+                br
+                input(type='text', name='by', id='inpurUserId', value=user ? user.id: '' placeholder='user', hidden, autofocus)
+                
+                       
+
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js')
+  script(src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js', type='text/javascript')
+  script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
+  script(src="https://cdn.jsdelivr.net/npm/flatpickr")
+
+
+
+  link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", rel="stylesheet")
+  link(href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css", rel="stylesheet")
+
+  
+  script(src='/javascripts/index.js')
+  link(rel='stylesheet', href='/stylesheets/style.css')
+  
+  
+
+       
+ 
+      

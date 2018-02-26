@@ -1,0 +1,22 @@
+extends layout
+block content
+ body(style='background-color:black')
+    link(href='http://fonts.googleapis.com/css?family=Great+Vibes', rel='stylesheet', type='text/css')
+    div.right 
+            | &nbsp
+            a(href='/main') Home
+            | &nbsp
+            a(href='/logout') Logout
+    div.profile_container
+        div.avatar-flip
+            img(src='/uploads/'+ user.profile_pic, height='150', width='200')
+        h2.profile__username #{user.name}
+        p.profile__useremail #{user.username}
+        
+        form.profile__form2(role='form', action="/profile", method="post", style='max-width: 300px;')
+            h2.profile__form-heading Update profile
+            input(type='text', name="name", id="name" value="#{user.name}" placeholder='Your Name')
+            input(type='password', name="password", id="password" placeholder='Your Password')
+            button(type='submit') Update
+
+

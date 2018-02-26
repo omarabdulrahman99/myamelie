@@ -1,0 +1,54 @@
+extends layout
+block content
+  
+  
+  
+  
+  body.smoke(style='background-color:black')
+  
+
+  
+    a.fades(href="#")
+     img.fades(src='http://data.whicdn.com/images/18140107/large.jpg', height='150', width='200')
+
+
+
+
+     
+   
+
+    
+    if (!user)
+      div.menu 
+        a(href='/login', style='text-decoration:none;color:gray;') Login
+        br
+        a(href='/register', style='text-decoration:none;color:gray;') Register
+        br
+        a(href='/chapterlinks', style='text-decoration:none;color:gray;') Chapters
+        | &nbsp
+    if (user && user.role == 'user')
+       div.menuafter
+        p Welcome #{user.name}
+        a(href='/chapterlinks' , style='text-decoration:none;color:gray;') Chapters
+        br
+        a(href='/profile', style='text-decoration:none;color:gray;') Profile
+        br
+        a(href='/forums', style='text-decoration:none;color:gray;') Forums
+        br
+        a(href='/logout', style='text-decoration:none;color:gray;') Logout
+    if(user && user.role == 'admin')
+      div.menuafter
+        p Welcome #{user.name}
+        a(href='/chapterlinks' , style='text-decoration:none;color:gray;') Chapters
+        br
+        a(href='/chapters' , style='text-decoration:none;color:gray;') Edit Chapters
+        br
+        a(href='/profile', style='text-decoration:none;color:gray;') Profile
+        br
+        a(href='/forums', style='text-decoration:none;color:gray;') Forums
+        br
+        a(href='/logout', style='text-decoration:none;color:gray;') Logout
+  
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js')
+  script(src='/javascripts/index.js')
+  link(href='http://fonts.googleapis.com/css?family=Great+Vibes', rel='stylesheet', type='text/css')
