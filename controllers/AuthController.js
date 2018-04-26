@@ -48,7 +48,13 @@ userController.home = function (req, res) {
 userController.main = function (req, res) {
   // get chapters 
   Chapters.find().then(function (chapters) {
-    return res.render('main', { user: req.user, chapters: chapters });
+    //console.log(req.session.username+'mainfk');
+    console.log(req.user+"requseronmain");
+   
+      return res.render('main', { user: req.user, chapters: chapters });
+  
+     
+    
   })
 };
 
@@ -173,7 +179,10 @@ userController.doLogin = function (req, res) {
     if(data.length>0){
       res.send('Sorry, you are banned until:' + data[0].untildate);
     }else{
-    res.redirect('/main');
+
+      console.log(req.user+"dologinuser");
+      res.render('main', {user:req.user});
+      
     }
 
   });

@@ -8,7 +8,7 @@ var multer = require('multer')
 var upload = multer({ dest: 'uploads/' })
 var session = require('express-session');
 var MongoStore = require('connect-mongostore')(session);
-
+var User = require('./models/user');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -20,6 +20,18 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/node-auth')
   .then(() => console.log('connection succesful'))
   .catch((err) => console.error(err));
+
+  mongoose.connection.on("connect", function(err){
+
+  app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  store: new MongoStore({mongooseConnection: mongoose.connection})
+
+}));
+
+  })
 
 
 var index = require('./routes/index');
@@ -40,20 +52,16 @@ app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(session({ secret: 'keyboard cat' }));//simply added this here vs just in mongostore, to persist passport session. mongostore saves those sessions for records.
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('uploads'));
 
-app.use(require('express-session')({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false,
-  store: new MongoStore({mongooseConnection: mongoose.connection})
 
-}));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
-var User = require('./models/user');
+
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
